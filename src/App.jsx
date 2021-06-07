@@ -1,4 +1,4 @@
-import { Navigation } from "components";
+import { Navigation, Wrapper } from "components";
 import { ThemeProvider } from "styled-components";
 import React from "react";
 import theme from "utils/theme";
@@ -10,20 +10,27 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
       <GlobalStyle />
-
       <Router>
         <Navigation
           items={[
             { content: "Hompage", to: "/" },
             { content: "Budget", to: "/budget" },
           ]}
+          RightElement={
+            <div>
+              <button>pl</button>
+              <button>en</button>
+            </div>
+          }
         />
-        <Switch>
-          <Route exact path="/">
-            Homepage
-          </Route>
-          <Route path="/budget">BudgetPage</Route>
-        </Switch>
+        <Wrapper>
+          <Switch>
+            <Route exact path="/">
+              Homepage
+            </Route>
+            <Route path="/budget">BudgetPage</Route>
+          </Switch>
+        </Wrapper>
       </Router>
     </ThemeProvider>
   );

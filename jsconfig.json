@@ -1,5 +1,3 @@
-//Dzieki temu możemy używać ścieżki relatywnych
-
 {
   "compilerOptions": {
     "baseUrl": "src"
