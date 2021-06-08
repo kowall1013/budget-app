@@ -1,4 +1,4 @@
-import { Navigation, Wrapper } from "components";
+import { Button, LoadingIndicator, Navigation, Wrapper } from "components";
 import { ThemeProvider } from "styled-components";
 import React from "react";
 import theme from "utils/theme";
@@ -11,7 +11,7 @@ function App() {
   const { i18n } = useTranslation();
 
   return (
-    <ThemeProvider theme={theme}>
+    <>
       <GlobalStyle />
       <Router>
         <Navigation
@@ -21,8 +21,12 @@ function App() {
           ]}
           RightElement={
             <div>
-              <button onClick={() => i18n.changeLanguage("pl")}>pl</button>
-              <button onClick={() => i18n.changeLanguage("en")}>en</button>
+              <Button variant="regular" onClick={() => i18n.changeLanguage("pl")}>
+                pl
+              </Button>
+              <Button variant="regular" onClick={() => i18n.changeLanguage("en")}>
+                en
+              </Button>
             </div>
           }
         />
@@ -35,15 +39,17 @@ function App() {
           </Switch>
         </Wrapper>
       </Router>
-    </ThemeProvider>
+    </>
   );
 }
 
 function RootApp() {
   return (
-    <React.Suspense fallback="...Loading">
-      <App />
-    </React.Suspense>
+    <ThemeProvider theme={theme}>
+      <React.Suspense fallback={<LoadingIndicator />}>
+        <App />
+      </React.Suspense>
+    </ThemeProvider>
   );
 }
 
