@@ -1,6 +1,6 @@
 import { BUDGET_GET, BUDGETED_CATEGORIES_GET } from "../constants";
 
-import API from "../fetch";
+import API from "data/fetch";
 
 export const fetchBudge = (id) => {
   const promise = API.budget.fetchBudget(id);
