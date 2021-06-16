@@ -4,7 +4,7 @@ import LanguageDetector from "i18next-browser-languagedetector";
 
 import CustomBackend from "./CustomBackend";
 
-const token = "00e56e26f1b3927ae11659da6be5b9045";
+const token = "392c992114b08e74b2a8d798021e1b5e";
 const id = "449937";
 
 i18n

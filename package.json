@@ -21,6 +21,7 @@
     "react-scripts": "3.4.0",
     "react-toastify": "^5.5.0",
     "redux": "^4.1.0",
+    "redux-thunk": "^2.3.0",
     "styled-components": "^5.0.1",
     "styled-normalize": "^8.0.7"
   },
@@ -29,7 +30,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "start:db": "json-server --watch db.json --port 3007 "
+    "start:db": "json-server --watch db.json --port 3003 "
   },
   "eslintConfig": {
     "extends": "react-app"
