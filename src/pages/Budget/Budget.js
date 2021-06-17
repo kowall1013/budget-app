@@ -4,6 +4,7 @@ import { fetchBudge, fetchBudgetedCategories } from "data/actions/budget.actions
 import { fetchAllCategories } from "data/actions/common.actions";
 import { Grid } from "./Budget.css";
 import { LoadingIndicator } from "components";
+import BudgetCategoryList from "pages/Budget/components/budgetCategoryList";
 
 function Budget({ fetchBudge, fetchBudgetedCategories, fetchAllCategories, commonState, budgetState }) {
   useEffect(() => {
@@ -20,7 +21,7 @@ function Budget({ fetchBudge, fetchBudgetedCategories, fetchAllCategories, commo
 
   return (
     <Grid>
-      <section>{isLoaded ? "Category List" : <LoadingIndicator />}</section>
+      <section>{isLoaded ? <BudgetCategoryList /> : <LoadingIndicator />}</section>
       <section>{isLoaded ? "Transaction List" : <LoadingIndicator />}</section>
     </Grid>
   );
