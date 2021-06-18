@@ -5,7 +5,7 @@ import React from "react";
 import ParentCategory from "./ParentCategory";
 import CategoryItem from "./CategoryItem";
 
-function BudgetCategoryList({ budgetCategories, allCategories }) {
+function BudgetCategoryList({ budgetCategories, allCategories, budget }) {
   const budgetCategoriesByParent = groupBy(
     budgetCategories,
     (item) => allCategories.find((category) => category.id === item.categoryId).parentCategory.name
@@ -13,7 +13,14 @@ function BudgetCategoryList({ budgetCategories, allCategories }) {
 
   const listItem = Object.entries(budgetCategoriesByParent).map(([parentName, categories]) => ({
     id: parentName,
-    Trigger: ({ onClick }) => <ParentCategory name={parentName} onClick={() => onClick(parentName)} />,
+    Trigger: ({ onClick }) => (
+      <ParentCategory
+        categories={categories}
+        name={parentName}
+        onClick={() => onClick(parentName)}
+        transactions={budget.transactions}
+      />
+    ),
     children: categories.map((budgetedCategory) => {
       const { name } = allCategories.find((category) => category.id === budgetedCategory.categoryId);
 
@@ -31,4 +38,5 @@ function BudgetCategoryList({ budgetCategories, allCategories }) {
 export default connect((state) => ({
   budgetCategories: state.budget.budgetCategories,
   allCategories: state.common.allCategories,
+  budget: state.budget.budget,
 }))(BudgetCategoryList);

@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 
 const Item = ({ item, onClickHandler, isActive }) => {
-  console.log("isActive", onClickHandler);
   return (
     <div>
       <item.Trigger onClick={onClickHandler} />
