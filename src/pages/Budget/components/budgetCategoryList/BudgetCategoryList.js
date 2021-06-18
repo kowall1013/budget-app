@@ -2,6 +2,8 @@ import { ToggleableList } from "components";
 import { connect } from "react-redux";
 import { groupBy } from "lodash";
 import React from "react";
+import ParentCategory from "./ParentCategory";
+import CategoryItem from "./CategoryItem";
 
 function BudgetCategoryList({ budgetCategories, allCategories }) {
   const budgetCategoriesByParent = groupBy(
@@ -9,15 +11,19 @@ function BudgetCategoryList({ budgetCategories, allCategories }) {
     (item) => allCategories.find((category) => category.id === item.categoryId).parentCategory.name
   );
 
-  const listItem = Object.entries(budgetCategoriesByParent).map(([parentName]) => ({
+  const listItem = Object.entries(budgetCategoriesByParent).map(([parentName, categories]) => ({
     id: parentName,
-    Trigger: ({ onClick }) => <h1>Mateusz</h1>,
-    children: allCategories.map((category) => <h1>KOwalski</h1>),
+    Trigger: ({ onClick }) => <ParentCategory name={parentName} onClick={() => onClick(parentName)} />,
+    children: categories.map((budgetedCategory) => {
+      const { name } = allCategories.find((category) => category.id === budgetedCategory.categoryId);
+
+      return <CategoryItem key={budgetedCategory.id} name={name} />;
+    }),
   }));
 
   return (
     <div>
-      <ToggleableList items={[]} />
+      <ToggleableList items={listItem} />
     </div>
   );
 }

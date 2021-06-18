@@ -1,14 +1,17 @@
 import React, { useState } from "react";
 
-const Item = ({ item, onClickHandler, isActive }) => (
-  <div>
-    <item.Trigger onClick={onClickHandler} />
-    {isActive && item.children}
-  </div>
-);
+const Item = ({ item, onClickHandler, isActive }) => {
+  console.log("isActive", onClickHandler);
+  return (
+    <div>
+      <item.Trigger onClick={onClickHandler} />
+      {isActive && item.children}
+    </div>
+  );
+};
 
 function ToggleableList({ items }) {
-  const [selectedItem, setSelectedItem] = useState("string");
+  const [selectedItem, setSelectedItem] = useState();
   return (
     <>
       {items.map((item) => (
