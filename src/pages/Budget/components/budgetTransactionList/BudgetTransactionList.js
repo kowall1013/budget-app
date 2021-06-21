@@ -1,20 +1,34 @@
 import React from "react";
 import { connect } from "react-redux";
 import { List, ListItem } from "./BudgetTransactionList.css";
+import { groupBy } from "lodash";
 
-function BudgetTransactionList({ transaction }) {
-  console.log(transaction);
+import { formatCurrency, formatDate } from "utils";
+
+function BudgetTransactionList({ transactions, allCategories }) {
+  const groupedTransactions = groupBy(transactions, (transaction) => new Date(transaction.date).getUTCDate());
+
   return (
     <List>
-      <li>
-        <ul>
-          <li></li>
-        </ul>
-      </li>
+      {Object.entries(groupedTransactions).map(([key, transactions]) => (
+        <li>
+          <ul>
+            {transactions.map((transaction) => (
+              <ListItem>
+                <div>{transaction.description}</div>
+                <div>{formatCurrency(transaction.amount)}</div>
+                <div>{formatDate(transaction.date)}</div>
+                <div>{(allCategories.find((category) => category.id === transaction.categoryId) || {}).name}</div>
+              </ListItem>
+            ))}
+          </ul>
+        </li>
+      ))}
     </List>
   );
 }
 
 export default connect((state) => ({
-  transaction: state.budget.budget.transactions,
+  transactions: state.budget.budget.transactions,
+  allCategories: state.common.allCategories,
 }))(BudgetTransactionList);

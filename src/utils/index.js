@@ -3,3 +3,9 @@ export const formatCurrency = (value) => {
 
   return new Intl.NumberFormat("pl", { style: "currency", currency: "PLN" }).format(number);
 };
+
+export const formatDate = (string) => {
+  const date = new Date(string);
+
+  return new Intl.DateTimeFormat("pl").format(date);
+};

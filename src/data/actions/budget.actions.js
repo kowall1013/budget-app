@@ -1,4 +1,4 @@
-import { BUDGET_GET, BUDGETED_CATEGORIES_GET } from "../constants";
+import { BUDGET_GET, BUDGETED_CATEGORIES_GET, SET_SELECTED_PARENT_CATEGORY_ID } from "../constants";
 
 import API from "data/fetch";
 
@@ -17,5 +17,12 @@ export const fetchBudgetedCategories = (id) => {
   return {
     type: BUDGETED_CATEGORIES_GET,
     promise,
+  };
+};
+
+export const selectParentCategory = (id) => {
+  return {
+    type: SET_SELECTED_PARENT_CATEGORY_ID,
+    payload: id,
   };
 };
