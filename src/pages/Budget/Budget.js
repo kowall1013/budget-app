@@ -3,11 +3,13 @@ import { connect } from "react-redux";
 import { fetchBudge, fetchBudgetedCategories } from "data/actions/budget.actions";
 import { fetchAllCategories } from "data/actions/common.actions";
 import { Grid } from "./Budget.css";
-import { LoadingIndicator } from "components";
+import { LoadingIndicator, Modal, Button } from "components";
 import BudgetCategoryList from "pages/Budget/components/budgetCategoryList";
 import BudgetTransactionList from "pages/Budget/components/budgetTransactionList";
+import { Route, Switch } from "react-router";
+import AddTransactionForm from "pages/Budget/components/addTransactionForm";
 
-function Budget({ fetchBudge, fetchBudgetedCategories, fetchAllCategories, commonState, budgetState }) {
+function Budget({ fetchBudge, fetchBudgetedCategories, fetchAllCategories, commonState, budgetState, allCategories }) {
   useEffect(() => {
     fetchBudge(1);
     fetchBudgetedCategories(1);
@@ -21,10 +23,28 @@ function Budget({ fetchBudge, fetchBudgetedCategories, fetchAllCategories, commo
   );
 
   return (
-    <Grid>
-      <section>{isLoaded ? <BudgetCategoryList /> : <LoadingIndicator />}</section>
-      <section>{isLoaded ? <BudgetTransactionList /> : <LoadingIndicator />}</section>
-    </Grid>
+    <>
+      <Grid>
+        <section>
+          {isLoaded ? (
+            <>
+              <Button to="/budget/transactions/new">Add new transaction</Button>
+              <BudgetCategoryList />
+            </>
+          ) : (
+            <LoadingIndicator />
+          )}
+        </section>
+        <section>{isLoaded ? <BudgetTransactionList /> : <LoadingIndicator />}</section>
+      </Grid>
+      <Switch>
+        <Route path="/budget/transactions/new">
+          <Modal>
+            <AddTransactionForm categories={allCategories} groupCategoryBy="parentCategory.name" />
+          </Modal>
+        </Route>
+      </Switch>
+    </>
   );
 }
 
@@ -34,6 +54,7 @@ export default connect(
       budget: state.budget.budget,
       commonState: state.common.loadingState,
       budgetState: state.budget.loadingState,
+      allCategories: state.common.allCategories,
     };
   },
   {
