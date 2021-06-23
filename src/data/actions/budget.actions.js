@@ -1,4 +1,9 @@
-import { BUDGET_GET, BUDGETED_CATEGORIES_GET, SET_SELECTED_PARENT_CATEGORY_ID } from "../constants";
+import {
+  BUDGET_GET,
+  BUDGETED_CATEGORIES_GET,
+  SET_SELECTED_PARENT_CATEGORY_ID,
+  BUDGET_TRANSACTION_ADD,
+} from "../constants";
 
 import API from "data/fetch";
 
@@ -24,5 +29,15 @@ export const selectParentCategory = (id) => {
   return {
     type: SET_SELECTED_PARENT_CATEGORY_ID,
     payload: id,
+  };
+};
+
+export const addTransaction = ({ budgetId, data }) => {
+  const promise = API.budget.addTransaction({ budgetId, data });
+
+  return {
+    type: BUDGET_TRANSACTION_ADD,
+    promise,
+    successMessage: "Add new transaction !",
   };
 };

@@ -8,6 +8,11 @@ import { useTranslation } from "react-i18next";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 import Budget from "./pages/Budget";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
+//Super biblioteka do wyświetlania notyfikacji
+toast.configure();
 
 function App() {
   const { i18n } = useTranslation();

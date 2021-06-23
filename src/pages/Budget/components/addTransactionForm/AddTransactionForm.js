@@ -1,10 +1,10 @@
 import React, { useMemo } from "react";
 import { Form, Field } from "react-final-form";
-import { groupBy } from "lodash";
+import { groupBy, noop } from "lodash";
 
 const required = (value) => (value ? undefined : "Required");
 
-function AddTransactionForm({ categories, groupCategoryBy }) {
+function AddTransactionForm({ onSubmit = noop, categories, groupCategoryBy }) {
   const groupedCategoriesByParentName = groupCategoryBy ? groupBy(categories, groupCategoryBy) : null;
   const categoryItems = useMemo(
     () =>
@@ -28,7 +28,7 @@ function AddTransactionForm({ categories, groupCategoryBy }) {
 
   return (
     <Form
-      onSubmit={console.log}
+      onSubmit={onSubmit}
       render={({ handleSubmit, form, submitting, pristine, values }) => (
         <form onSubmit={handleSubmit}>
           <Field name="description" validate={required}>
@@ -49,7 +49,7 @@ function AddTransactionForm({ categories, groupCategoryBy }) {
               </div>
             )}
           </Field>
-          <Field name="category" validate={required}>
+          <Field name="categoryId" validate={required}>
             {({ input, meta }) => (
               <div>
                 <label>Category</label>
@@ -75,7 +75,6 @@ function AddTransactionForm({ categories, groupCategoryBy }) {
               Reset
             </button>
           </div>
-          <pre>{JSON.stringify(values, 0, 2)}</pre>
         </form>
       )}
     />

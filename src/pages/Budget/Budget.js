@@ -1,15 +1,25 @@
 import React, { useEffect, useMemo } from "react";
 import { connect } from "react-redux";
-import { fetchBudge, fetchBudgetedCategories } from "data/actions/budget.actions";
+import { fetchBudge, fetchBudgetedCategories, addTransaction } from "data/actions/budget.actions";
 import { fetchAllCategories } from "data/actions/common.actions";
 import { Grid } from "./Budget.css";
 import { LoadingIndicator, Modal, Button } from "components";
 import BudgetCategoryList from "pages/Budget/components/budgetCategoryList";
 import BudgetTransactionList from "pages/Budget/components/budgetTransactionList";
-import { Route, Switch } from "react-router";
+import { Route, Switch, useHistory } from "react-router-dom";
 import AddTransactionForm from "pages/Budget/components/addTransactionForm";
 
-function Budget({ fetchBudge, fetchBudgetedCategories, fetchAllCategories, commonState, budgetState, allCategories }) {
+function Budget({
+  fetchBudge,
+  fetchBudgetedCategories,
+  fetchAllCategories,
+  commonState,
+  budgetState,
+  allCategories,
+  addTransaction,
+  budget,
+}) {
+  const history = useHistory();
   useEffect(() => {
     fetchBudge(1);
     fetchBudgetedCategories(1);
@@ -21,6 +31,15 @@ function Budget({ fetchBudge, fetchBudgetedCategories, fetchAllCategories, commo
       !!commonState && Object.keys(commonState).length === 0 && !!budgetState && Object.keys(budgetState).length === 0,
     [commonState, budgetState]
   );
+
+  const handleSubmitAddTransaction = (values) => {
+    addTransaction({
+      budgetId: budget.id,
+      data: values,
+    }).then(() => {
+      history.goBack();
+    });
+  };
 
   return (
     <>
@@ -40,7 +59,11 @@ function Budget({ fetchBudge, fetchBudgetedCategories, fetchAllCategories, commo
       <Switch>
         <Route path="/budget/transactions/new">
           <Modal>
-            <AddTransactionForm categories={allCategories} groupCategoryBy="parentCategory.name" />
+            <AddTransactionForm
+              categories={allCategories}
+              groupCategoryBy="parentCategory.name"
+              onSubmit={handleSubmitAddTransaction}
+            />
           </Modal>
         </Route>
       </Switch>
@@ -61,5 +84,6 @@ export default connect(
     fetchBudge,
     fetchBudgetedCategories,
     fetchAllCategories,
+    addTransaction,
   }
 )(Budget);

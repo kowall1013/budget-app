@@ -162,68 +162,44 @@
       "id": "p1tYW2Q"
     },
     {
-      "description": "Nowa transakcja",
-      "amount": 10.5,
-      "categoryId": "3",
-      "date": "2020-02-19",
+      "description": "Mati",
+      "amount": 13,
+      "categoryId": "4",
+      "date": "2021-06-22",
       "budgetId": "1",
-      "id": "aqq7G-0"
+      "id": "Ero_ZE7"
     },
     {
-      "description": "Nowa transakcja1",
-      "amount": 10.5,
-      "categoryId": "3",
-      "date": "2020-02-19",
-      "budgetId": "1",
-      "id": "GNERO_K"
-    },
-    {
-      "description": "Nowa transakcja2",
-      "amount": 10.5,
-      "categoryId": "3",
-      "date": "2020-02-19",
-      "budgetId": "1",
-      "id": "M9B9puJ"
-    },
-    {
-      "description": "Nowa transakcja3",
-      "amount": 10.5,
-      "categoryId": "3",
-      "date": "2020-02-19",
-      "budgetId": "1",
-      "id": "gsP5R-B"
-    },
-    {
-      "description": "Nowa transakcja5",
-      "amount": 10.5,
+      "description": "Trnsakcja-4",
+      "amount": 13,
       "categoryId": "2",
-      "date": "2020-02-19",
+      "date": "2021-06-02",
       "budgetId": "1",
-      "id": "EXvZu7Z"
+      "id": "XhERq85"
     },
     {
-      "description": "Nowa transakcja5",
-      "amount": 10.5,
-      "categoryId": "3",
-      "date": "2020-02-20",
+      "description": "Piwo",
+      "amount": 4,
+      "categoryId": "2",
+      "date": "2021-06-25",
       "budgetId": "1",
-      "id": "nd_u-b5"
+      "id": "n-7hiwp"
     },
     {
-      "description": "Nowa transakcja6",
-      "amount": 10.5,
-      "categoryId": "3",
-      "date": "2020-02-20",
+      "description": "Mateusz",
+      "categoryId": "2",
+      "date": "2021-06-08",
+      "amount": 6,
       "budgetId": "1",
-      "id": "KBQrPmU"
+      "id": "7jaKbna"
     },
     {
-      "description": "Nowa transakcja7",
-      "amount": 10.6,
+      "description": "Chipsy",
+      "amount": 12,
       "categoryId": "3",
-      "date": "2020-02-20",
+      "date": "2021-06-02",
       "budgetId": "1",
-      "id": "jHBfyjy"
+      "id": "73hQont"
     }
   ]
 }
