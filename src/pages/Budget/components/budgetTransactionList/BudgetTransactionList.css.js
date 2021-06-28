@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import style from "styled-components";
 
 export const List = styled.ul`
   > li + li {
@@ -16,6 +15,7 @@ export const ListItem = styled.li`
   padding: ${({ theme }) => theme.spacing.xs}px;
   display: flex;
   justify-content: space-between;
+  cursor: pointer;
 
   > *::nth-child(1) {
     flex: 4;

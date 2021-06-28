@@ -6,8 +6,10 @@ import { Grid } from "./Budget.css";
 import { LoadingIndicator, Modal, Button } from "components";
 import BudgetCategoryList from "pages/Budget/components/budgetCategoryList";
 import BudgetTransactionList from "pages/Budget/components/budgetTransactionList";
-import { Route, Switch, useHistory } from "react-router-dom";
+import { Route, Switch, useHistory, useLocation } from "react-router-dom";
 import AddTransactionForm from "pages/Budget/components/addTransactionForm";
+
+import { TransactionDetails } from "./components/transactionDetails";
 
 function Budget({
   fetchBudge,
@@ -18,8 +20,10 @@ function Budget({
   allCategories,
   addTransaction,
   budget,
+  transactions,
 }) {
   const history = useHistory();
+  const location = useLocation();
   useEffect(() => {
     fetchBudge(1);
     fetchBudgetedCategories(1);
@@ -66,6 +70,11 @@ function Budget({
             />
           </Modal>
         </Route>
+        <Route path="/budget/transactions/:id">
+          <Modal>
+            <TransactionDetails transactions={transactions} />
+          </Modal>
+        </Route>
       </Switch>
     </>
   );
@@ -78,6 +87,7 @@ export default connect(
       commonState: state.common.loadingState,
       budgetState: state.budget.loadingState,
       allCategories: state.common.allCategories,
+      transactions: state.budget.budget.transactions,
     };
   },
   {

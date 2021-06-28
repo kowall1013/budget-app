@@ -4,6 +4,7 @@ import { List, ListItem } from "./BudgetTransactionList.css";
 import { groupBy } from "lodash";
 
 import { formatCurrency, formatDate } from "utils";
+import { Button } from "components";
 
 function BudgetTransactionList({ transactions, allCategories, selectedParentCategoryId, budgetedCategories }) {
   const filteredTransactionsBySelectedParentCategory = useMemo(() => {
@@ -44,6 +45,7 @@ function BudgetTransactionList({ transactions, allCategories, selectedParentCate
           <ul>
             {transactions.map((transaction) => (
               <ListItem key={transaction.id}>
+                <Button to={`/budget/transactions/${transaction.id}`}>See details</Button>
                 <div>{transaction.description}</div>
                 <div>{formatCurrency(transaction.amount)}</div>
                 <div>{formatDate(transaction.date)}</div>
