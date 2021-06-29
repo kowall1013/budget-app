@@ -5,8 +5,12 @@ import { groupBy } from "lodash";
 
 import { formatCurrency, formatDate } from "utils";
 import { Button } from "components";
+import { useQuery } from "react-query";
+
+import API from "data/fetch";
 
 function BudgetTransactionList({ transactions, allCategories, selectedParentCategoryId, budgetedCategories }) {
+  const { data, isLOading, error } = useQuery(["budget", { id: 1 }], API.budget.fetchBudget);
   const filteredTransactionsBySelectedParentCategory = useMemo(() => {
     if (typeof selectedParentCategoryId === "undefined") {
       return transactions;

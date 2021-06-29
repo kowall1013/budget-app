@@ -4,6 +4,7 @@ import React from "react";
 import theme from "utils/theme";
 import GlobalStyle from "index.css";
 import { useTranslation } from "react-i18next";
+import { ReactQueryConfigProvider } from "react-query";
 
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
@@ -52,13 +53,19 @@ function App() {
   );
 }
 
+const queryConfig = {
+  suspense: true,
+};
+
 function RootApp() {
   return (
-    <ThemeProvider theme={theme}>
-      <React.Suspense fallback={<LoadingIndicator />}>
-        <App />
-      </React.Suspense>
-    </ThemeProvider>
+    <ReactQueryConfigProvider config={queryConfig}>
+      <ThemeProvider theme={theme}>
+        <React.Suspense fallback={<LoadingIndicator />}>
+          <App />
+        </React.Suspense>
+      </ThemeProvider>
+    </ReactQueryConfigProvider>
   );
 }
 
