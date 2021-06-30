@@ -1,34 +1,18 @@
-import React, { useEffect, useMemo } from "react";
+import React, { useMemo } from "react";
 import { connect } from "react-redux";
-import { fetchBudge, fetchBudgetedCategories, addTransaction } from "data/actions/budget.actions";
-import { fetchAllCategories } from "data/actions/common.actions";
+import { addTransaction } from "data/actions/budget.actions";
+
 import { Grid } from "./Budget.css";
-import { LoadingIndicator, Modal, Button } from "components";
+import { Modal, Button, LoadingIndicator, SuspenseErrorBoundary } from "components";
 import BudgetCategoryList from "pages/Budget/components/budgetCategoryList";
 import BudgetTransactionList from "pages/Budget/components/budgetTransactionList";
-import { Route, Switch, useHistory, useLocation } from "react-router-dom";
+import { Route, Switch, useHistory } from "react-router-dom";
 import AddTransactionForm from "pages/Budget/components/addTransactionForm";
 
 import { TransactionDetails } from "./components/transactionDetails";
 
-function Budget({
-  fetchBudge,
-  fetchBudgetedCategories,
-  fetchAllCategories,
-  commonState,
-  budgetState,
-  allCategories,
-  addTransaction,
-  budget,
-  transactions,
-}) {
+function Budget({ commonState, budgetState, allCategories, addTransaction, budget, transactions }) {
   const history = useHistory();
-  const location = useLocation();
-  useEffect(() => {
-    fetchBudge(1);
-    fetchBudgetedCategories(1);
-    fetchAllCategories();
-  }, [fetchBudge, fetchBudgetedCategories, fetchAllCategories]);
 
   const isLoaded = useMemo(
     () =>
@@ -45,20 +29,22 @@ function Budget({
     });
   };
 
+  //Omówienie React Suspense "Poprawa indykatorów ładowania", od 2 minuty
+
   return (
     <>
       <Grid>
         <section>
-          {isLoaded ? (
-            <>
-              <Button to="/budget/transactions/new">Add new transaction</Button>
-              <BudgetCategoryList />
-            </>
-          ) : (
-            <LoadingIndicator />
-          )}
+          <SuspenseErrorBoundary>
+            <BudgetCategoryList />
+          </SuspenseErrorBoundary>
         </section>
-        <section>{isLoaded ? <BudgetTransactionList /> : <LoadingIndicator />}</section>
+        <section>
+          <SuspenseErrorBoundary>
+            <Button to="/budget/transactions/new">Add new transaction</Button>
+            <BudgetTransactionList />
+          </SuspenseErrorBoundary>
+        </section>
       </Grid>
       <Switch>
         <Route path="/budget/transactions/new">
@@ -91,9 +77,6 @@ export default connect(
     };
   },
   {
-    fetchBudge,
-    fetchBudgetedCategories,
-    fetchAllCategories,
     addTransaction,
   }
 )(Budget);

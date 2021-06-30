@@ -5,17 +5,22 @@ import { groupBy } from "lodash";
 import React, { useRef, useMemo, useCallback } from "react";
 import ParentCategory from "./ParentCategory";
 import CategoryItem from "./CategoryItem";
+import { useQuery } from "react-query";
+import API from "data/fetch";
 
 import { selectParentCategory } from "data/actions/budget.actions";
 
-function BudgetCategoryList({ budgetCategories, allCategories, budget, selectParentCategory }) {
+function BudgetCategoryList({ selectParentCategory }) {
+  const { data: budget } = useQuery(["budget", { id: 1 }], API.budget.fetchBudget);
+  const { data: allCategories } = useQuery("allCategories", API.common.fetchAllCategories);
+  const { data: budgetedCategories } = useQuery(["budgetedCategories", { id: 1 }], API.budget.fetchBudgetCategories);
   const budgetCategoriesByParent = useMemo(
     () =>
       groupBy(
-        budgetCategories,
+        budgetedCategories,
         (item) => allCategories.find((category) => category.id === item.categoryId).parentCategory.name
       ),
-    [budgetCategories, allCategories]
+    [budgetedCategories, allCategories]
   );
 
   const handleClickParentCategoryRef = useRef(null);
@@ -69,7 +74,7 @@ function BudgetCategoryList({ budgetCategories, allCategories, budget, selectPar
 
   const amountTaken = useMemo(
     () =>
-      budgetCategories.reduce((acc, budgetedCategory) => {
+      budgetedCategories.reduce((acc, budgetedCategory) => {
         const categoryTransactions = budget.transactions.filter(
           (transaction) => transaction.categoryId === budgetedCategory.id
         );
@@ -77,15 +82,15 @@ function BudgetCategoryList({ budgetCategories, allCategories, budget, selectPar
         const categoryExpenses = categoryTransactions.reduce((acc, transaction) => acc + transaction.amount, 0);
         return acc + Math.max(categoryExpenses, budgetedCategory.budget);
       }, 0),
-    [budgetCategories, budget.transactions]
+    [budgetedCategories, budget.transactions]
   );
 
   const notBudgetedTransaction = useMemo(
     () =>
       budget.transactions.filter((transaction) => {
-        return !budgetCategories.find((budgetedCategory) => budgetedCategory.id === transaction.categoryId);
+        return !budgetedCategories.find((budgetedCategory) => budgetedCategory.id === transaction.categoryId);
       }),
-    [budget.transactions, budgetCategories]
+    [budget.transactions, budgetedCategories]
   );
 
   const notBudgetedExpenses = useMemo(
@@ -123,13 +128,6 @@ function BudgetCategoryList({ budgetCategories, allCategories, budget, selectPar
   );
 }
 
-export default connect(
-  (state) => ({
-    budgetCategories: state.budget.budgetCategories,
-    allCategories: state.common.allCategories,
-    budget: state.budget.budget,
-  }),
-  {
-    selectParentCategory,
-  }
-)(BudgetCategoryList);
+export default connect(null, {
+  selectParentCategory,
+})(BudgetCategoryList);

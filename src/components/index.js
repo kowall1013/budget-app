@@ -5,3 +5,4 @@ export { default as Button } from "./Button";
 export { default as ToggleableList } from "./ToggleableList";
 export { default as Modal } from "./Modal";
 export { default as Input } from "./Input";
+export { default as SuspenseErrorBoundary } from "./SuspenseErrorBoundary";

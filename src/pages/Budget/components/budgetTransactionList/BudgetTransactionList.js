@@ -9,15 +9,18 @@ import { useQuery } from "react-query";
 
 import API from "data/fetch";
 
-function BudgetTransactionList({ transactions, allCategories, selectedParentCategoryId, budgetedCategories }) {
-  const { data, isLOading, error } = useQuery(["budget", { id: 1 }], API.budget.fetchBudget);
+function BudgetTransactionList({ selectedParentCategoryId }) {
+  const { data: budget } = useQuery(["budget", { id: 1 }], API.budget.fetchBudget);
+  const { data: allCategories } = useQuery("allCategories", API.common.fetchAllCategories);
+  const { data: budgetedCategories } = useQuery(["budgetedCategories", { id: 1 }], API.budget.fetchBudgetCategories);
+
   const filteredTransactionsBySelectedParentCategory = useMemo(() => {
     if (typeof selectedParentCategoryId === "undefined") {
-      return transactions;
+      return budget.transactions;
     }
 
     if (selectedParentCategoryId === null) {
-      return transactions.filter((transaction) => {
+      return budget.transactions.filter((transaction) => {
         const hasBudgetedCategory = budgetedCategories.some(
           (budgetedCategory) => budgetedCategory.categoryId === transaction.categoryId
         );
@@ -25,7 +28,7 @@ function BudgetTransactionList({ transactions, allCategories, selectedParentCate
       });
     }
 
-    return transactions.filter((transaction) => {
+    return budget.transactions.filter((transaction) => {
       try {
         const category = allCategories.find((category) => category.id === transaction.categoryId);
         const parentCategoryName = category.parentCategory.name;
@@ -34,7 +37,7 @@ function BudgetTransactionList({ transactions, allCategories, selectedParentCate
         return false;
       }
     });
-  }, [transactions, allCategories, selectedParentCategoryId, budgetedCategories]);
+  }, [budget.transactions, allCategories, selectedParentCategoryId, budgetedCategories]);
 
   const groupedTransactions = useMemo(
     () =>
@@ -64,8 +67,5 @@ function BudgetTransactionList({ transactions, allCategories, selectedParentCate
 }
 
 export default connect((state) => ({
-  transactions: state.budget.budget.transactions,
-  budgetedCategories: state.budget.budgetCategories,
-  allCategories: state.common.allCategories,
   selectedParentCategoryId: state.budget.selectedParentCategoryId,
 }))(BudgetTransactionList);
