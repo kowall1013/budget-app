@@ -13,6 +13,16 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 //Super biblioteka do wyświetlania notyfikacji
+//styled-components
+//redux
+//redux middlewares
+//Portals
+//lazy + suspense
+//react.memo
+//react-final-form
+//react-query
+//context api
+//json-server
 toast.configure();
 
 function App() {
