@@ -23,6 +23,14 @@ import "react-toastify/dist/ReactToastify.css";
 //react-query
 //context api
 //json-server
+
+//zadanie
+//1.Stworzenie paginacji dla transkacji (json server wspiera to) nawet react-query pozwala nam to
+//2.Możliwość stworzenia zarządzania
+//3.Wyświetlanie ststaystyk w budżecie
+//4.zMIANA KATEGORI (ROBIMY REQUEST PUT NA dany adres)
+//5.usówanie transakcji
+//6. Możliwość kopiowanie budżetów
 toast.configure();
 
 function App() {
