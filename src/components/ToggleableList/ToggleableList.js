@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from "react";
 
-const Item = ({ item, onClickHandler, isActive }) => {
+const Item = React.memo(({ item, onClickHandler, isActive }) => {
   return (
     <div>
       <item.Trigger onClick={onClickHandler} />
       {isActive && item.children}
     </div>
   );
-};
+});
 
 function ToggleableList({ items, clickRef }) {
   const [selectedItem, setSelectedItem] = useState();
@@ -25,4 +25,4 @@ function ToggleableList({ items, clickRef }) {
   );
 }
 
-export default ToggleableList;
+export default React.memo(ToggleableList);

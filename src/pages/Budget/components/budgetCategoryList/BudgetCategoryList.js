@@ -1,16 +1,16 @@
 import { ToggleableList } from "components";
 import "styled-components/macro";
-import { connect } from "react-redux";
+
 import { groupBy } from "lodash";
-import React, { useRef, useMemo, useCallback } from "react";
+import React, { useRef, useMemo, useCallback, useContext } from "react";
 import ParentCategory from "./ParentCategory";
 import CategoryItem from "./CategoryItem";
 import { useQuery } from "react-query";
 import API from "data/fetch";
 
-import { selectParentCategory } from "data/actions/budget.actions";
+import BudgetContext from "data/context/budget.context";
 
-function BudgetCategoryList({ selectParentCategory }) {
+function BudgetCategoryList() {
   const { data: budget } = useQuery(["budget", { id: 1 }], API.budget.fetchBudget);
   const { data: allCategories } = useQuery("allCategories", API.common.fetchAllCategories);
   const { data: budgetedCategories } = useQuery(["budgetedCategories", { id: 1 }], API.budget.fetchBudgetCategories);
@@ -23,17 +23,19 @@ function BudgetCategoryList({ selectParentCategory }) {
     [budgetedCategories, allCategories]
   );
 
+  const { setSelectedParentCategoryId } = useContext(BudgetContext.store);
+
   const handleClickParentCategoryRef = useRef(null);
 
   const handleClearParentCategorySelect = useCallback(() => {
-    selectParentCategory();
+    setSelectedParentCategoryId();
     handleClickParentCategoryRef.current();
-  }, [selectParentCategory, handleClickParentCategoryRef]);
+  }, [setSelectedParentCategoryId, handleClickParentCategoryRef]);
 
   const handleSelectRestParentCategories = useCallback(() => {
-    selectParentCategory(null);
+    setSelectedParentCategoryId(null);
     handleClickParentCategoryRef.current();
-  }, [selectParentCategory, handleClickParentCategoryRef]);
+  }, [setSelectedParentCategoryId, handleClickParentCategoryRef]);
 
   const listItem = useMemo(
     () =>
@@ -44,7 +46,7 @@ function BudgetCategoryList({ selectParentCategory }) {
             categories={categories}
             name={parentName}
             onClick={() => {
-              selectParentCategory(parentName);
+              setSelectedParentCategoryId(parentName);
               onClick(parentName);
             }}
             transactions={budget.transactions}
@@ -63,7 +65,7 @@ function BudgetCategoryList({ selectParentCategory }) {
           );
         }),
       })),
-    [allCategories, budget.transactions, budgetCategoriesByParent, selectParentCategory]
+    [allCategories, budget.transactions, budgetCategoriesByParent, setSelectedParentCategoryId]
   );
 
   const totalSpent = useMemo(
@@ -128,6 +130,4 @@ function BudgetCategoryList({ selectParentCategory }) {
   );
 }
 
-export default connect(null, {
-  selectParentCategory,
-})(BudgetCategoryList);
+export default BudgetCategoryList;
