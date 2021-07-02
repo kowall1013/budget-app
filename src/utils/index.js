@@ -5,6 +5,7 @@ export const formatCurrency = (value) => {
 };
 
 export const formatDate = (string) => {
+  console.log(typeof string);
   const date = new Date(string);
 
   return new Intl.DateTimeFormat("pl").format(date);

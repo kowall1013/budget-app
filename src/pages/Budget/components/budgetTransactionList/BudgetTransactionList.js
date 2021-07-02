@@ -55,7 +55,7 @@ function BudgetTransactionList({ selectedParentCategoryId }) {
                 <Button to={`/budget/transactions/${transaction.id}`}>See details</Button>
                 <div>{transaction.description}</div>
                 <div>{formatCurrency(transaction.amount)}</div>
-                <div>{formatDate(transaction.date)}</div>
+
                 <div>{(allCategories.find((category) => category.id === transaction.categoryId) || {}).name}</div>
               </ListItem>
             ))}

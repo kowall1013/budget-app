@@ -55,6 +55,7 @@ function App() {
 
 const queryConfig = {
   suspense: true,
+  refetchAllOnWindowFocus: false,
 };
 
 function RootApp() {

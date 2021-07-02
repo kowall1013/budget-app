@@ -152,54 +152,6 @@
       "categoryId": "5",
       "date": "2019-12-18T13:38:41.768Z",
       "budgetId": "1"
-    },
-    {
-      "description": "Default Agile Workflow",
-      "amount": 123,
-      "categoryId": "7",
-      "date": "2020-02-13",
-      "budgetId": "1",
-      "id": "p1tYW2Q"
-    },
-    {
-      "description": "Mati",
-      "amount": 13,
-      "categoryId": "4",
-      "date": "2021-06-22",
-      "budgetId": "1",
-      "id": "Ero_ZE7"
-    },
-    {
-      "description": "Trnsakcja-4",
-      "amount": 13,
-      "categoryId": "2",
-      "date": "2021-06-02",
-      "budgetId": "1",
-      "id": "XhERq85"
-    },
-    {
-      "description": "Piwo",
-      "amount": 4,
-      "categoryId": "2",
-      "date": "2021-06-25",
-      "budgetId": "1",
-      "id": "n-7hiwp"
-    },
-    {
-      "description": "Mateusz",
-      "categoryId": "2",
-      "date": "2021-06-08",
-      "amount": 6,
-      "budgetId": "1",
-      "id": "7jaKbna"
-    },
-    {
-      "description": "Chipsy",
-      "amount": 12,
-      "categoryId": "3",
-      "date": "2021-06-02",
-      "budgetId": "1",
-      "id": "73hQont"
     }
   ]
 }

@@ -1,17 +1,18 @@
 import React, { useMemo } from "react";
 import { Form, Field } from "react-final-form";
-import { groupBy, noop } from "lodash";
-import { Input } from "components";
+import { useTranslation } from "react-i18next";
+import { noop, groupBy } from "lodash";
+import { Button } from "components";
 
 const required = (value) => (value ? undefined : "Required");
 
-function AddTransactionForm({ onSubmit = noop, categories, groupCategoryBy }) {
-  const groupedCategoriesByParentName = groupCategoryBy ? groupBy(categories, groupCategoryBy) : null;
+const AddTransactionForm = ({ onSubmit = noop, categories, groupCategoriesBy }) => {
+  const { t } = useTranslation();
   const categoryItems = useMemo(
     () =>
-      groupedCategoriesByParentName
-        ? Object.entries(groupedCategoriesByParentName).map(([parentName, categories]) => (
-            <optgroup key={parentName} label={parentName}>
+      groupCategoriesBy
+        ? Object.entries(groupBy(categories, groupCategoriesBy)).map(([key, categories]) => (
+            <optgroup key={key} label={key}>
               {categories.map((category) => (
                 <option key={category.id} value={category.id}>
                   {category.name}
@@ -24,38 +25,59 @@ function AddTransactionForm({ onSubmit = noop, categories, groupCategoryBy }) {
               {category.name}
             </option>
           )),
-    [groupedCategoriesByParentName, categories]
+    [groupCategoriesBy, categories]
   );
 
   return (
     <Form
       onSubmit={onSubmit}
-      render={({ handleSubmit, form, submitting, pristine, values }) => (
+      render={({ handleSubmit, form, submitting }) => (
         <form onSubmit={handleSubmit}>
           <Field name="description" validate={required}>
-            {({ input, meta }) => <Input input={input} meta={meta} label="Description" />}
+            {({ input, meta }) => (
+              <div>
+                <label>{t("Description")}</label>
+                <input {...input} type="text" placeholder={t("Description")} />
+                {meta.error && meta.touched && <span>{t(meta.error)}</span>}
+              </div>
+            )}
           </Field>
           <Field name="amount" validate={required} parse={(value) => parseFloat(value, 10)}>
-            {({ input, meta }) => <Input input={input} meta={meta} label="Amount" />}
+            {({ input, meta }) => (
+              <div>
+                <label>{t("Amount")}</label>
+                <input {...input} type="number" step="0.01" placeholder={t("Amount")} />
+                {meta.error && meta.touched && <span>{t(meta.error)}</span>}
+              </div>
+            )}
           </Field>
-          <Field name="categoryId" validate={required}>
-            {({ input, meta }) => <Input input={input} meta={meta} label="Category" />}
+          <Field name="categoryId" validate={required} parse={(value) => parseFloat(value, 10)}>
+            {({ input, meta }) => (
+              <div>
+                <label>{t("Category")}</label>
+                <select {...input}>{categoryItems}</select>
+                {meta.error && meta.touched && <span>{t(meta.error)}</span>}
+              </div>
+            )}
           </Field>
           <Field name="date" validate={required}>
-            {({ input, meta }) => <Input input={input} meta={meta} label="Date" />}
+            {({ input, meta }) => (
+              <div>
+                <label>{t("Date")}</label>
+                <input {...input} type="date" />
+                {meta.error && meta.touched && <span>{t(meta.error)}</span>}
+              </div>
+            )}
           </Field>
-          <div className="buttons">
-            <button type="submit" disabled={submitting}>
-              Submit
-            </button>
-            <button type="button" onClick={form.reset} disabled={submitting || pristine}>
-              Reset
-            </button>
+          <div>
+            <Button variant="regular" type="submit" disabled={submitting}>
+              {t("Submit")}
+            </Button>
           </div>
         </form>
       )}
     />
   );
-}
+};
 
 export default AddTransactionForm;
